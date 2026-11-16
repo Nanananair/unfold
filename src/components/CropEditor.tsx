@@ -29,6 +29,7 @@ export function CropEditor({
         objectFit="contain"
         restrictPosition
         showGrid={false}
+        mediaProps={{ crossOrigin: "anonymous" }}
         onCropChange={(position: Point) => onChange({ position })}
         onZoomChange={(zoom: number) => onChange({ zoom })}
         onCropComplete={(_: Area, px: Area) => onChange({ pixels: { x: px.x, y: px.y, w: px.width, h: px.height } })}

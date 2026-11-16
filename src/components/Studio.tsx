@@ -186,7 +186,7 @@ export default function Studio() {
             onMirror={setMirror}
           />
         )}
-        {step === 4 && <ExportStep device={device} renders={renders} />}
+        {step === 4 && <ExportStep device={device} renders={renders} credits={photos.flatMap((p) => (p?.credit ? [p.credit] : []))} />}
         </div>
       </main>
 

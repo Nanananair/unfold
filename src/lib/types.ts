@@ -8,6 +8,8 @@ export type Photo = {
   url: string;
   name: string;
   size: Size;
+  /** Set for photos picked from Unsplash; shown wherever the photo appears. */
+  credit?: { name: string; userLink: string; photoLink: string };
 };
 
 export type Framing = {

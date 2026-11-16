@@ -1,9 +1,11 @@
 import type { Size } from "./devices";
 import { clampRect, rotatedSize, type Rect, type Rotation } from "./geometry";
 
-export function loadImage(url: string): Promise<HTMLImageElement> {
+export function loadImage(url: string, opts: { crossOrigin?: boolean } = {}): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
+    // Remote (Unsplash) images must be fetched with CORS or the canvas becomes tainted and toBlob fails.
+    if (opts.crossOrigin || /^https?:/.test(url)) img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error("Could not load image"));
     img.src = url;

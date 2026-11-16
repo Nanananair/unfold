@@ -3,13 +3,15 @@
 import { useMemo, useState } from "react";
 import type { Device } from "@/lib/devices";
 import { canShareFiles, downloadBlob } from "@/lib/render";
-import type { Rendered, TargetKey } from "@/lib/types";
+import type { Photo, Rendered, TargetKey } from "@/lib/types";
 import { FoldPreview } from "./FoldPreview";
 import { Instructions } from "./Instructions";
 import { PhoneMock, type MockView } from "./PhoneMock";
 import { Button, Heading } from "./ui";
 
-export function ExportStep({ device, renders }: { device: Device; renders: Partial<Record<TargetKey, Rendered>> }) {
+type Credit = NonNullable<Photo["credit"]>;
+
+export function ExportStep({ device, renders, credits = [] }: { device: Device; renders: Partial<Record<TargetKey, Rendered>>; credits?: Credit[] }) {
   const [showHome, setShowHome] = useState(true);
   const [view, setView] = useState<MockView>("fold");
   const [open, setOpen] = useState(0);
@@ -103,6 +105,23 @@ export function ExportStep({ device, renders }: { device: Device; renders: Parti
         </Button>
       </div>
       {status && <p className="mt-2 text-xs text-muted">{status}</p>}
+      {credits.length > 0 && (
+        <p className="mt-3 text-xs text-muted">
+          {credits.map((c, i) => (
+            <span key={i}>
+              {i > 0 && " · "}
+              Photo by{" "}
+              <a className="underline" href={c.userLink} target="_blank" rel="noreferrer">
+                {c.name}
+              </a>{" "}
+              on{" "}
+              <a className="underline" href={c.photoLink} target="_blank" rel="noreferrer">
+                Unsplash
+              </a>
+            </span>
+          ))}
+        </p>
+      )}
       <p className="mt-3 text-xs text-muted">
         No website can change an Android wallpaper directly, so the last step happens in your phone&apos;s settings. It takes about
         thirty seconds:

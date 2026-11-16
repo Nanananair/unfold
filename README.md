@@ -24,6 +24,17 @@ Presets for the Samsung Galaxy Z Fold 3–8 Ultra, Pixel Fold / 9 Pro Fold /
 Huawei Mate X6 and Xiaomi Mix Fold 4, plus custom sizes. The table lives in
 `src/lib/devices.ts`; add a line to support a new phone.
 
+## Unsplash search (optional)
+
+The photo step can search Unsplash's free library in place. Create an app at
+<https://unsplash.com/developers>, copy its Access Key, and set
+`UNSPLASH_ACCESS_KEY` (locally in `.env.local`, on Vercel under Project →
+Settings → Environment Variables). Without the key the button still shows but
+explains that search isn't configured and links to Unsplash instead. The key
+never reaches the browser: `/api/unsplash/search` proxies the query and
+`/api/unsplash/download` registers each pick, as Unsplash's API guidelines
+require. Photographers are credited in the photo step and on the export page.
+
 ## Setting the wallpaper
 
 No website can change an Android wallpaper directly. Unfold gets you as close
