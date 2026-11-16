@@ -11,7 +11,7 @@ import { ExportStep } from "./ExportStep";
 import { FrameStep, type Source } from "./FrameStep";
 import { PhotosStep } from "./PhotosStep";
 import { RecipeStep } from "./RecipeStep";
-import { Button } from "./ui";
+import { Button, LogoMark } from "./ui";
 
 const STEPS = ["Device", "Recipe", "Photos", "Frame", "Preview"] as const;
 type Step = 0 | 1 | 2 | 3 | 4;
@@ -133,12 +133,15 @@ export default function Studio() {
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-4 pb-28 pt-[max(1rem,env(safe-area-inset-top))]">
       <header className="mb-5 flex items-center justify-between">
-        <div>
-          <div className="text-lg font-semibold tracking-tight">Unfold</div>
-          <div className="text-xs text-muted">Wallpapers that make sense on both screens</div>
+        <div className="flex items-center gap-3">
+          <LogoMark />
+          <div>
+            <div className="text-lg font-semibold leading-tight tracking-tight">Unfold</div>
+            <div className="text-xs text-muted">Both screens, one idea</div>
+          </div>
         </div>
-        <div className="text-right text-xs text-muted">
-          <div className="font-medium text-ink">{device.name}</div>
+        <div className="max-w-[48%] shrink-0 text-right text-xs text-muted">
+          <div className="truncate font-medium text-ink">{device.name}</div>
           {step > 0 && (
             <button type="button" className="underline" onClick={() => setStep(0)}>
               change
@@ -156,8 +159,9 @@ export default function Studio() {
               type="button"
               disabled={!reachable}
               onClick={() => setStep(i as Step)}
-              className={`flex-1 rounded-full py-1 text-[11px] ${i === step ? "bg-accent text-accent-ink" : reachable ? "bg-panel-2 text-ink" : "bg-panel text-muted"}`}
+              className={`flex-1 rounded-full py-1 text-[11px] transition-all duration-300 ${i === step ? "bg-accent text-accent-ink shadow-md shadow-accent/30" : reachable ? "bg-panel-2 text-ink" : "bg-panel text-muted"}`}
             >
+              {i < step ? "✓ " : ""}
               {s}
             </button>
           );
@@ -165,6 +169,7 @@ export default function Studio() {
       </nav>
 
       <main className="flex-1">
+        <div key={step} className="step-enter">
         {step === 0 && <DeviceStep device={device} onChange={setDevice} />}
         {step === 1 && <RecipeStep recipe={recipe} onChange={chooseRecipe} />}
         {step === 2 && recipe && <PhotosStep recipe={recipe} device={device} photos={photos} onChange={changePhoto} />}
@@ -182,6 +187,7 @@ export default function Studio() {
           />
         )}
         {step === 4 && <ExportStep device={device} renders={renders} />}
+        </div>
       </main>
 
       <footer className="fixed inset-x-0 bottom-0 border-t border-line bg-bg/90 backdrop-blur pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3">

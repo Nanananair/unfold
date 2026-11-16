@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { CUSTOM_DEVICE_ID, DEVICES, formatSize, makeCustomDevice, type Device } from "@/lib/devices";
+import { DEMO_COVER, DEMO_INNER } from "@/lib/demoArt";
+import { FoldDemo } from "./FoldPreview";
 import { Card, Heading } from "./ui";
 
 export function DeviceStep({ device, onChange }: { device: Device; onChange: (d: Device) => void }) {
@@ -23,6 +25,14 @@ export function DeviceStep({ device, onChange }: { device: Device; onChange: (d:
 
   return (
     <div>
+      <section className="fade-in mb-8 rounded-3xl border border-line bg-gradient-to-b from-panel to-bg px-4 pb-5 pt-6 text-center">
+        <FoldDemo device={device} cover={DEMO_COVER} inner={DEMO_INNER} />
+        <h1 className="mt-4 text-2xl font-semibold tracking-tight">One idea, both screens</h1>
+        <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+          Bring your own photos. Frame the cover and the inner screen so they belong together, preview the fold, and export both at your
+          phone&apos;s exact size.
+        </p>
+      </section>
       <Heading title="Which fold?" sub="Wallpapers get exported at this phone's exact pixel size." />
       <div className="space-y-5">
         {brands.map((brand) => (
